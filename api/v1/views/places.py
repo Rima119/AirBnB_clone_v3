@@ -32,7 +32,7 @@ def get_place(place_id):
     return jsonify(place.to_dict())
 
 
-@app_views.route('/placess/<place_id>', methods=['DELETE'],
+@app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_place(place_id):
     """deletes a place based on it's place_id"""
@@ -44,9 +44,9 @@ def delete_place(place_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/places/<place_id>', methods=['POST'],
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
-def create_place(place_id):
+def create_place(city_id):
     """create a new place"""
     city = storage.get("City", city_id)
     if city is None:
@@ -61,7 +61,7 @@ def create_place(place_id):
         abort(404)
     if 'name' not in data:
         abort(400, "Missing name")
-    place = Place(**new_place)
+    place = Place(**data)
     setattr(place, 'city_id', city_id)
     storage.new(place)
     storage.save()
