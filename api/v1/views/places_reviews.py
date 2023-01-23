@@ -5,7 +5,6 @@ Review view object that handles all default RESTFul API actions
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
-from models.city import City
 from models.review import Review
 from models.place import Place
 from models.user import User
@@ -13,7 +12,7 @@ from models.user import User
 
 @app_views.route('/places/<string:place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
-def get_reviews(city_id):
+def get_reviews(place_id):
     """Retireve the list of review objects of a specified place"""
     place = storage.get("Place", place_id)
     if place is None:
