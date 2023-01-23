@@ -76,7 +76,7 @@ def put_place(place_id):
         abort(404)
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    for att.r, val in request.get_json().items():
+    for attr, val in request.get_json().items():
         if attr not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
             setattr(place, attr, val)
     place.save()
