@@ -54,7 +54,7 @@ def post_review(place_id):
     if place is None:
         abort(404)
     if not request.get_json():
-        return make_response(jsonfiy({'error': 'Not a JSON'}), 400)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     kwargs = request.get_json()
     if 'user_id' not in request.get_json():
         return make_response(jsonify({'error': 'Missing user_id'}), 400)
