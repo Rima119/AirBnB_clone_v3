@@ -125,8 +125,8 @@ def places_search():
         while i < limit:
             place = places[i]
             url = first_url + '{}/amenities'
-            req = url.format(place.id)
-            response = requests.get(req)
+            request = url.format(place.id)
+            response = requests.get(request)
             am_d = json.loads(response.text)
             amenities = [storage.get("Amenity", o['id']) for o in am_d]
             for amenity in ams:
