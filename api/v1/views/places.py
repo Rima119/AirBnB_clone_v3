@@ -59,7 +59,7 @@ def post_place(place_id):
     user = storage.get("User", kwargs['user_id'])
     if user is None:
         abort(404)
-    if 'name' not in kwargs
+    if 'name' not in kwargs:
         return make_response(jsonify({'error': 'Missing name'}), 400)
     kwargs['city_id'] = city_id
     place = Place(**kwargs)

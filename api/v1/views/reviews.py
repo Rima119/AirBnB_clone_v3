@@ -61,7 +61,7 @@ def post_review(place_id):
     user = storage.get("User", kwargs['user_id'])
     if user is None:
         abort(404)
-    if 'text' not in kwargs
+    if 'text' not in kwargs:
         return make_response(jsonify({'error': 'Missing text'}), 400)
     kwargs['place_id'] = place_id
     review = Review(**kwargs)
