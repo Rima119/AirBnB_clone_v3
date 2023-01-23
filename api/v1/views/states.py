@@ -15,7 +15,8 @@ def all_states():
     return jsonify([obj.to_dict() for obj in states])
 
 
-@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'],
+                 strict_slashes=False)
 def get_state(state_id):
     """Retrieves a State object"""
     state = storage.get("State", state_id)
@@ -36,7 +37,8 @@ def delete_state(state_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/states/', methods=['POST'], strict_slashes=False)
+@app_views.route('/states/', methods=['POST'],
+                 strict_slashes=False)
 def create_state():
     """ Creates a State object """
     data = request.get_json()
