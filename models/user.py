@@ -24,7 +24,7 @@ class User(BaseModel, Base):
         password = ""
         first_name = ""
         last_name = ""
- 
+
     @property
     def password(self):
         """Return hashed password"""
