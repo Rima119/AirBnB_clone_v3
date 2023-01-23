@@ -7,7 +7,7 @@ from flask import jsonify, abort, make_response, request
 from models import storage
 from models.place import Place
 from models.amenity import Amenity
-import os
+from os import getenv
 
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'],
@@ -17,11 +17,11 @@ def all_places_amenities(place_id):
     place = storage.get("Place", place_id)
     if not place:
         abort(404)
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        lst = [obj.to_dict() for obj in place.amenities]
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        lt = [obj.to_dict() for obj in place.amenities]
     else:
-        lst = [storage.get("Amenity", id).to_dict() for id in place.amenity_ids]
-    return jsonify(lst)
+        lt = [storage.get("Amenity", id).to_dict() for id in place.amenity_ids]
+    return jsonify(lt)
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
@@ -34,7 +34,7 @@ def delete_places_amenities(place_id, amenity_id):
     amenity = storage.get("Amenity", amenity_id)
     if not amenity:
         abort(404)
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         if amenity not in place.amenities:
             abort(404)
     else:
@@ -58,7 +58,7 @@ def link_amenity_place(place_id, amenity_id):
     amenity = storage.get("Amenity", amenity_id)
     if not amenity:
         abort(404)
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         if amenity in place.amenities:
             return make_response(jsonify(amenity.to_dict()), 200)
         place.amenities.append(amenity)

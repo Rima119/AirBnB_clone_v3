@@ -5,7 +5,6 @@ Review view object that handles all default RESTFul API actions
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
-from models.city import City
 from models.review import Review
 from models.place import Place
 from models.user import User
@@ -13,7 +12,7 @@ from models.user import User
 
 @app_views.route('/places/<string:place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
-def get_reviews(city_id):
+def get_reviews(place_id):
     """Retireve the list of review objects of a specified place"""
     place = storage.get("Place", place_id)
     if place is None:
@@ -30,7 +29,7 @@ def get_review(review_id):
     """get review information if review id is given"""
     review = storage.get("Review", review_id)
     if review is None:
-       abort(404)
+        abort(404)
     return jsonify(review.to_dict())
 
 
@@ -43,7 +42,7 @@ def delete_review(review_id):
         abort(404)
     review.delete()
     storage.save()
-    return (jsonify({}))
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/places/<string:place_id>/reviews', methods=['POST'],
@@ -54,7 +53,7 @@ def post_review(place_id):
     if place is None:
         abort(404)
     if not request.get_json():
-        return make_response(jsonfiy({'error': 'Not a JSON'}), 400)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     kwargs = request.get_json()
     if 'user_id' not in request.get_json():
         return make_response(jsonify({'error': 'Missing user_id'}), 400)
@@ -83,4 +82,4 @@ def put_review(review_id):
                         'updated_at']:
             setattr(review, attr, val)
     review.save()
-    return make_response(jsonify(review.to_dict()), 201)
+    return make_response(jsonify(review.to_dict()), 200)
